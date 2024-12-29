@@ -46,6 +46,40 @@ public class Inventory {
         return search().withName(itemName).result().size();
     }
 
+    public static int getItemQuantity(String itemName) {
+        return search().withName(itemName).result().stream().mapToInt(Widget::getItemQuantity).sum();
+    }
+
+    public static int getItemQuantity(int itemId) {
+        return search().withId(itemId).result().stream().mapToInt(Widget::getItemQuantity).sum();
+    }
+
+    public static boolean withdrawItemFromBank(String itemName, int quantity) {
+        if (Bank.isOpen()) {
+            int currentQuantity = getItemQuantity(itemName);
+            if (currentQuantity < quantity) {
+                // Logic to interact with the bank and withdraw the item
+                System.out.println("Withdrawing " + (quantity - currentQuantity) + " " + itemName + " from bank.");
+                // Placeholder for bank interaction logic
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean withdrawItemFromBank(int itemId, int quantity) {
+        if (Bank.isOpen()) {
+            int currentQuantity = getItemQuantity(itemId);
+            if (currentQuantity < quantity) {
+                // Logic to interact with the bank and withdraw the item
+                System.out.println("Withdrawing " + (quantity - currentQuantity) + " of item ID " + itemId + " from bank.");
+                // Placeholder for bank interaction logic
+                return true;
+            }
+        }
+        return false;
+    }
+
     @Subscribe
     public void onGameStateChanged(GameStateChanged gameStateChanged) {
         if (gameStateChanged.getGameState() == GameState.HOPPING || gameStateChanged.getGameState() == GameState.LOGIN_SCREEN || gameStateChanged.getGameState() == GameState.CONNECTION_LOST) {

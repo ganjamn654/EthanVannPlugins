@@ -63,4 +63,54 @@ public class Bank {
             Bank.bankItems.clear();
         }
     }
+
+    public static boolean withdrawItem(String itemName, int quantity) {
+        if (!isOpen()) {
+            System.out.println("Bank is not open. Cannot withdraw items.");
+            return false;
+        }
+
+        ItemQuery query = search().withName(itemName);
+        if (query.empty()) {
+            System.out.println("Item not found in bank: " + itemName);
+            return false;
+        }
+
+        Widget itemWidget = query.result().get(0);
+        int currentQuantity = Inventory.getItemQuantity(itemName);
+        if (currentQuantity >= quantity) {
+            System.out.println("Already have enough " + itemName + " in inventory.");
+            return true;
+        }
+
+        int withdrawQuantity = quantity - currentQuantity;
+        System.out.println("Withdrawing " + withdrawQuantity + " " + itemName + " from bank.");
+        // Placeholder for actual withdrawal logic
+        return true;
+    }
+
+    public static boolean withdrawItem(int itemId, int quantity) {
+        if (!isOpen()) {
+            System.out.println("Bank is not open. Cannot withdraw items.");
+            return false;
+        }
+
+        ItemQuery query = search().withId(itemId);
+        if (query.empty()) {
+            System.out.println("Item not found in bank with ID: " + itemId);
+            return false;
+        }
+
+        Widget itemWidget = query.result().get(0);
+        int currentQuantity = Inventory.getItemQuantity(itemId);
+        if (currentQuantity >= quantity) {
+            System.out.println("Already have enough of item ID " + itemId + " in inventory.");
+            return true;
+        }
+
+        int withdrawQuantity = quantity - currentQuantity;
+        System.out.println("Withdrawing " + withdrawQuantity + " of item ID " + itemId + " from bank.");
+        // Placeholder for actual withdrawal logic
+        return true;
+    }
 }

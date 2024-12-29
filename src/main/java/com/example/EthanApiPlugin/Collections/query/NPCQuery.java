@@ -55,6 +55,11 @@ public class NPCQuery {
         return this;
     }
 
+    public NPCQuery withNames(List<String> names) {
+        npcs = npcs.stream().filter(npc -> npc.getName() != null && names.contains(npc.getName())).collect(Collectors.toList());
+        return this;
+    }
+
     public NPCQuery nameContains(String name) {
         npcs = npcs.stream().filter(npcs -> npcs.getName() != null && npcs.getName().contains(name)).collect(Collectors.toList());
         return this;
